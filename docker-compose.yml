@@ -1,0 +1,43 @@
+version: '3'
+services:
+  configuration:
+    build:
+      context: ./Configuration-Service
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-config-server:0.1
+    restart: always
+    ports:
+      - 8585:8585
+  eureka:
+    build:
+      context: ./Eureka-Service
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-eureka-server:0.1
+    restart: always
+    depends_on:
+      - configuration
+    ports:
+      - 8888:8888
+  product-service:
+    build:
+      context: ./Product-Service
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-product:0.1
+    depends_on:
+      - configuration
+    restart: always
+    ports:
+      - 8000:8000
+  pricing-service:
+    build:
+      context: ./Pricing-Service
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-pricing:0.1
+    restart: always
+    ports:
+      - 9000:9000
+    depends_on:
+      - configuration
+    
+
+    

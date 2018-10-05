@@ -1,5 +1,7 @@
 package com.example.PricingService.controllers;
 
+import com.example.PricingService.models.Price;
+
 import lombok.Data;
 import lombok.Setter;
 
@@ -24,10 +26,4 @@ public class PricingController {
         price.setPrice(productPrice);
         return price;
     }
-}
-
-@Data
-class Price {
-    private String sku;
-    private String price;
 }
