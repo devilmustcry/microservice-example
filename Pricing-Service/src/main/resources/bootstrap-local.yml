@@ -4,7 +4,6 @@ spring:
   cloud:
     config:
       uri: http://localhost:8585
-    label: development
 eureka:
   client:
     serviceUrl:
