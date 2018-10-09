@@ -1,6 +1,10 @@
 package com.example.ProductService.controllers;
 import com.example.ProductService.models.Product;
+import com.example.ProductService.services.ProductService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.ribbon.proxy.annotation.Hystrix;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,22 +17,12 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping(value = "products")
 public class ProductController {
 
-    @LoadBalanced
-    @Bean
-    private RestTemplate restTemplate(){
-      return new RestTemplate();
-    }
-
     @Autowired
-    private RestTemplate restTemplate;
+    ProductService productService;
 
     @GetMapping("/search")
     public Product getProductsByTypeAndName(@RequestParam(value = "sku") final String sku) {
-      String url = "http://PRICING-SERVICE/products/price?sku=" + sku;
-      String price = restTemplate.getForObject(url, String.class);
-      // return price;
-      return new Product(sku, price);
-      // return restTemplate.getForObject(url, Product.class);
+        return productService.getPrice(sku);
     }
 }
 
