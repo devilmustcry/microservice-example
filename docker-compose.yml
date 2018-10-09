@@ -1,43 +1,92 @@
 version: '3'
 services:
-  configuration:
+  config-service:
+    container_name: config-service
     build:
       context: ./Configuration-Service
       dockerfile: Dockerfile
     image: devilmustcry/microservice-config-server:0.1
     restart: always
+    depends_on:
+      - eureka-service
+    links:
+      - eureka-service
+    expose:
+      - 8585
     ports:
       - 8585:8585
-  eureka:
+    networks:
+      - emp-network
+  eureka-service:
+    container_name: eureka-service
     build:
       context: ./Eureka-Service
       dockerfile: Dockerfile
     image: devilmustcry/microservice-eureka-server:0.1
     restart: always
-    depends_on:
-      - configuration
+    expose: 
+      - 8888
     ports:
       - 8888:8888
+    networks:
+      - emp-network
   product-service:
+    container_name: product-service
     build:
       context: ./Product-Service
       dockerfile: Dockerfile
     image: devilmustcry/microservice-product:0.1
     depends_on:
-      - configuration
+      - config-service
+      - eureka-service
+      - pricing-service
+    links:
+      - config-service
+      - eureka-service
+      - pricing-service
     restart: always
+    expose:
+      - 8000
     ports:
       - 8000:8000
+    environment:
+      - eureka.client.enabled=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka-service:8888/eureka/
+      - eureka.host=eureka
+      - eureka.instance.preferIpAddress=true
+      - spring.cloud.config.uri=http://config-service:8585
+    entrypoint: /home/application/java/product-service.sh
+    networks:
+      - emp-network
+    hostname: PRODUCT-SERVICE
   pricing-service:
+    container_name: pricing-service
     build:
       context: ./Pricing-Service
       dockerfile: Dockerfile
     image: devilmustcry/microservice-pricing:0.1
     restart: always
+    expose:
+      - 9000
     ports:
       - 9000:9000
-    depends_on:
-      - configuration
+    links:
+      - config-service
+      - eureka-service
+    entrypoint: /home/application/java/pricing-service.sh
+    networks:
+      - emp-network
+    hostname: PRICING-SERVICE
+    environment:
+      - server.port=8080
+      - eureka.client.enabled=true
+      - eureka.host=eureka
+      - eureka.instance.preferIpAddress=true
+      - eureka.client.serviceUrl.defaultZone=http://eureka-service:8888/eureka/
+      - spring.cloud.config.uri=http://config-service:8585
+      - spring.profiles.active=test
+networks:
+  emp-network:
+      driver: bridge
     
-
     

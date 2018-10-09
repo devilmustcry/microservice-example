@@ -1,6 +1,6 @@
 package com.example.PricingService.controllers;
 
-import com.example.PricingService.models.Price;
+// import com.example.PricingService.models.Price;
 
 import lombok.Data;
 import lombok.Setter;
@@ -20,10 +20,31 @@ public class PricingController {
     String productPrice;
 
     @GetMapping
-    public Price getPrice(@RequestParam(value = "sku") final String sku) {
+    public String getPrice(@RequestParam(value = "sku") final String sku) {
         Price price = new Price();
         price.setSku(sku);
         price.setPrice(productPrice);
-        return price;
+        return productPrice;
+    }
+    class Price {
+        private String sku;
+        private String price;
+    
+        public Price() {
+    
+        }
+    
+        public Price(String sku, String price) {
+            this.sku = sku;
+            this.price = price;
+        }
+    
+        public void setSku(String sku) {
+            this.sku = sku;
+        }
+    
+        public void setPrice(String price) {
+            this.price = price;
+        }
     }
 }

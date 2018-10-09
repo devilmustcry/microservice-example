@@ -25,7 +25,10 @@ public class ProductController {
     @GetMapping("/search")
     public Product getProductsByTypeAndName(@RequestParam(value = "sku") final String sku) {
       String url = "http://PRICING-SERVICE/products/price?sku=" + sku;
-      return restTemplate.getForObject(url, Product.class);
+      String price = restTemplate.getForObject(url, String.class);
+      // return price;
+      return new Product(sku, price);
+      // return restTemplate.getForObject(url, Product.class);
     }
 }
 

@@ -4,36 +4,58 @@ services:
     build:
       context: ./Configuration-Service
       dockerfile: Dockerfile.dev
+    image: devilmustcry/microservice-config-server-dev:0.1
     restart: always
+    depends_on:
+      - eureka
     ports:
       - 8585:8585
   eureka:
     build:
       context: ./Eureka-Service
       dockerfile: Dockerfile.dev
+    image: devilmustcry/microservice-eureka-server-dev:0.1
     restart: always
-    depends_on:
-      - configuration
     ports:
       - 8888:8888
+      - 8761:8761
   product-service:
     build:
       context: ./Product-Service
       dockerfile: Dockerfile.dev
+    image: devilmustcry/microservice-product-dev:0.1
     depends_on:
       - configuration
+      - eureka
+      - pricing-service
     restart: always
     ports:
-      - 8000:8000
+      - 8000:8080
+    links:
+      - eureka
+      - configuration
+    environment:
+      - server.port=8080
+      - eureka.client.enabled=true
+      - eureka.host=eureka
+      - eureka.instance.preferIpAddress=true
   pricing-service:
     build:
       context: ./Pricing-Service
       dockerfile: Dockerfile.dev
+    image: devilmustcry/microservice-pricing-dev:0.1
     restart: always
     ports:
-      - 9000:9000
+      - 9000:8080
     depends_on:
+      - eureka
       - configuration
-    
-
+    links:
+      - eureka
+      - configuration
+    environment:
+      - server.port=8080
+      - eureka.client.enabled=true
+      - eureka.host=eureka
+      - eureka.instance.preferIpAddress=true
     

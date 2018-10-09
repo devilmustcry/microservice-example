@@ -1,0 +1,16 @@
+version: '3'
+services:
+  pricing-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-pricing:0.1
+    restart: always
+    ports:
+      - 9000:8080
+    # links:
+    #   - eureka
+    environment:
+      - eureka.client.enabled=true
+      - eureka.host=eureka
+      - eureka.instance.preferIpAddress=true

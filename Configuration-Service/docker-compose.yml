@@ -1,0 +1,13 @@
+version: '3'
+services:
+  config-service:
+    container_name: config-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-config-server:0.1
+    restart: always
+    expose:
+      - 8585
+    ports:
+      - 8585:8585
