@@ -3,8 +3,8 @@ spring:
       name: product-service
     cloud:
       config:
-        uri: http://localhost:8585
+        uri: http://config-service:8585
 eureka:
     client:
       serviceUrl:
-        defaultZone: http://localhost:8888/eureka
+        defaultZone: http://eureka-service:8888/eureka

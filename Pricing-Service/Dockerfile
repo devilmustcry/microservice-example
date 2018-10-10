@@ -8,6 +8,6 @@ WORKDIR /home/application/java
 COPY --from=compile "/home/source/java/target/pricing-service-0.0.1-SNAPSHOT.jar" .
 COPY pricing-service.sh .
 RUN chmod 755 pricing-service.sh
-EXPOSE 8080
+EXPOSE 9000
 # ENTRYPOINT [ "java", "-jar", "/home/application/java/pricing-service-0.0.1-SNAPSHOT.jar" ]
 # ENTRYPOINT [ "java", "-Dspring.profiles.active=dev", "-jar", "/home/application/java/pricing-service-0.0.1-SNAPSHOT.jar" ]

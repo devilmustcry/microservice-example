@@ -51,10 +51,9 @@ services:
       - 8000:8000
     environment:
       - eureka.client.enabled=true
-      - eureka.client.serviceUrl.defaultZone=http://eureka-service:8888/eureka/
       - eureka.host=eureka
       - eureka.instance.preferIpAddress=true
-      - spring.cloud.config.uri=http://config-service:8585
+      - spring.profiles.active=production
     entrypoint: /home/application/java/product-service.sh
     networks:
       - emp-network
@@ -78,13 +77,30 @@ services:
       - emp-network
     hostname: PRICING-SERVICE
     environment:
-      - server.port=8080
       - eureka.client.enabled=true
       - eureka.host=eureka
       - eureka.instance.preferIpAddress=true
-      - eureka.client.serviceUrl.defaultZone=http://eureka-service:8888/eureka/
-      - spring.cloud.config.uri=http://config-service:8585
-      - spring.profiles.active=test
+      - spring.profiles.active=production
+  zuul-service:
+    container_name: zuul-service
+    build:
+      context: ./zuul-service
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-zuul:0.1
+    restart: always
+    expose: 
+      - 9999
+    ports:
+      - 9999:9999
+    links:
+      - config-service
+      - eureka-service
+    environment:
+      - spring.profiles.active=production
+    entrypoint: /home/application/java/zuul-service.sh
+    networks: 
+      - emp-network
+    hostname: ZUUL-SERVICE
 networks:
   emp-network:
       driver: bridge

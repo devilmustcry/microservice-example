@@ -1,0 +1,14 @@
+version: '3'
+services:
+  zuul-service:
+    container_name: zuul-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: devilmustcry/microservice-zuul:0.1
+    restart: always
+    expose: 
+      - 9999
+    ports:
+      - 9999:9999
+    hostname: ZUUL-SERVICE

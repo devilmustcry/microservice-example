@@ -7,7 +7,7 @@ services:
     image: devilmustcry/microservice-pricing:0.1
     restart: always
     ports:
-      - 9000:8080
+      - 9000:9000
     # links:
     #   - eureka
     environment:

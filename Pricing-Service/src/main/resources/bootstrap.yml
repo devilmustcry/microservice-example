@@ -1,10 +1,10 @@
 spring:
-    application:
-      name: pricing-service
-    cloud:
-      config:
-        uri: http://localhost:8585
+  application:
+    name: pricing-service
+  cloud:
+    config:
+      uri: http://config-service:8585
 eureka:
-    client:
-      serviceUrl:
-        defaultZone: http://localhost:8888/eureka
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service:8888/eureka/
