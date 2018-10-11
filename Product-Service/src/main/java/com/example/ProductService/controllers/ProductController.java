@@ -17,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(value = "products")
-//@FeignClient(name="pricing-service")
-//@RibbonClient(name="pricing-service")
 public class ProductController {
 
     @Autowired
