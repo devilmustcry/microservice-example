@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     image: devilmustcry/microservice-config-server:0.1
     restart: always
+    environment:
+      - spring.profiles.active=dev
     expose:
       - 8585
     ports:

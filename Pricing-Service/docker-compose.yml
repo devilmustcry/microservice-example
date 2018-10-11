@@ -1,16 +1,25 @@
 version: '3'
 services:
   pricing-service:
+    container_name: pricing-service
     build:
       context: ./
       dockerfile: Dockerfile
     image: devilmustcry/microservice-pricing:0.1
     restart: always
+    expose:
+      - 9000
     ports:
       - 9000:9000
-    # links:
-    #   - eureka
+    entrypoint:
+      - "java" 
+      - "-jar"
+      - "/home/application/java/pricing-service-0.0.1-SNAPSHOT.jar"
+    hostname: PRICING-SERVICE
     environment:
       - eureka.client.enabled=true
       - eureka.host=eureka
       - eureka.instance.preferIpAddress=true
+      - spring.profiles.active=dev
+      - server.port=9000
+    

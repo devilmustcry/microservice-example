@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: zuul-service
+  cloud:
+    config:
+      uri: http://10.55.20.17:8585
+
+

@@ -1,0 +1,29 @@
+server:
+  port: 9999
+
+zuul:
+  ignored-services: '*'
+  routes:
+    product-service:
+      path: /products/**
+      stripPrefix: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.55.20.17:8888/eureka/
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  application:
+    name: zuul-service
+  cloud:
+    uri: http://10.55.20.17:8585
+    config:
+      label: standalone

@@ -11,4 +11,12 @@ services:
       - 9999
     ports:
       - 9999:9999
+    environment:
+      - spring.profiles.active=dev
+    entrypoint:
+      - "java" 
+      - "-jar"
+      - "-Dspring.profiles.active=dev"
+      - "/home/application/java/zuul-service-0.0.1-SNAPSHOT.jar"
     hostname: ZUUL-SERVICE
+    

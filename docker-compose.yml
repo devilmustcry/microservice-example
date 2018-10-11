@@ -39,11 +39,9 @@ services:
     depends_on:
       - config-service
       - eureka-service
-      - pricing-service
     links:
       - config-service
       - eureka-service
-      - pricing-service
     restart: always
     expose:
       - 8000
@@ -54,6 +52,7 @@ services:
       - eureka.host=eureka
       - eureka.instance.preferIpAddress=true
       - spring.profiles.active=production
+      - server.port=8000
     entrypoint: /home/application/java/product-service.sh
     networks:
       - emp-network
@@ -81,6 +80,7 @@ services:
       - eureka.host=eureka
       - eureka.instance.preferIpAddress=true
       - spring.profiles.active=production
+      - server.port=9000
   zuul-service:
     container_name: zuul-service
     build:
@@ -97,6 +97,7 @@ services:
       - eureka-service
     environment:
       - spring.profiles.active=production
+      - server.port=9999
     entrypoint: /home/application/java/zuul-service.sh
     networks: 
       - emp-network

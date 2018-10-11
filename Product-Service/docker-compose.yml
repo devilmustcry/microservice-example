@@ -1,17 +1,23 @@
 version: '3'
 services: 
   product-service:
+    container_name: product-service
     build:
       context: ./
       dockerfile: Dockerfile
     image: devilmustcry/microservice-product:0.1
     restart: always
+    expose:
+      - 8000
     ports:
-      - 8000:8080
-    # links:
-    #   - eureka
+      - 8000:8000
     environment:
-      - server.port=8080
       - eureka.client.enabled=true
       - eureka.host=eureka
       - eureka.instance.preferIpAddress=true
+      - spring.profiles.active=dev
+    entrypoint:
+      - "java" 
+      - "-jar"
+      - "/home/application/java/product-service-0.0.1-SNAPSHOT.jar"
+    hostname: PRODUCT-SERVICE
